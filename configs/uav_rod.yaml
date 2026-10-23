@@ -1,0 +1,8 @@
+base: codrone.yaml
+classes: [car]
+semantic:
+  text_vectors: assets/uav_rod_text.npz
+data:
+  train_index: data/UAV_ROD/train.jsonl
+  val_index: null
+  test_index: data/UAV_ROD/test.jsonl

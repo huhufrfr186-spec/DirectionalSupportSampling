@@ -1,0 +1,3 @@
+base: codrone.yaml
+model:
+  demand_source: raw

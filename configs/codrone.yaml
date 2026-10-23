@@ -1,0 +1,70 @@
+classes: [car, truck, traffic-sign, people, motor, bicycle, traffic-light, tricycle, bridge, bus, boat, ship]
+model:
+  canvas: 1024
+  density_nodes: 33
+  density_floor: 0.15
+  shape_ridge: 0.00000001
+  hidden_dim: 256
+  heads: 8
+  ffn_dim: 1024
+  queries: 300
+  layers: 6
+  bins: 33
+  reader_groups: 4
+  allocation: thickness
+  demand_source: corrected
+  pretrained: true
+  backbone_weights: null
+  gradient_checkpointing: true
+semantic:
+  teacher: openai/clip-vit-base-patch16
+  text_vectors: assets/codrone_text.npz
+  temperature: 0.07
+data:
+  train_index: data/CODrone/train.jsonl
+  val_index: data/CODrone/val.jsonl
+  test_index: data/CODrone/test.jsonl
+  patch: {size: 1024, stride: 512, visible: 0.7}
+allocation:
+  grid: 5
+  tau: 16.0
+  eta: 0.1
+  beta: 1.0
+  kappa: 1.0
+  lambda_e: 1.0
+  epsilon: 0.00000001
+  use_deformation: true
+loss:
+  matching: {class: 2.0, iou: 2.0, vertex: 5.0}
+  classification: 1.0
+  center: 5.0
+  shape: 1.0
+  phase: 1.0
+  consistency: 1.0
+  box: 2.0
+  initialization: 1.0
+  heatmap: 0.5
+  allocation: 1.0
+  semantic: 1.0
+train:
+  epochs: 36
+  seed: 42
+  batch_size: 1
+  effective_batch_size: 10
+  lr: 0.00005
+  backbone_lr: 0.00001
+  weight_decay: 0.00005
+  warmup_epochs: 1
+  warmup_start: 0.01
+  minimum_lr_ratio: 0.01
+  clip_norm: 0.1
+  workers: 0
+  threads: 4
+  amp: false
+  activation_offload: false
+  log_interval: 20
+  save_interval: 6
+evaluation:
+  interval: 1
+  score_threshold: 0.001
+  merge: {nms: 0.5, max_detections: 3000}
